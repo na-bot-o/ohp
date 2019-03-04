@@ -16,6 +16,8 @@ package cmd
 
 import (
 	"fmt"
+	"log"
+	"os"
 
 	"github.com/mitchellh/go-homedir"
 
@@ -39,8 +41,19 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("insert called")
-		home, err = homedir.Dir()
+		home, err := homedir.Dir()
+		filepath := home + "/.ohp"
 
+		if err != nil {
+			log.Fatal(err)
+			os.Exit(1)
+		}
+		file, err := os.OpenFile(filepath, os.O_APPEND|os.O_RDWR, 0755)
+		if err != nil {
+			log.Fatal(err)
+			os.Exit(1)
+		}
+		defer file.Close()
 	},
 }
 
