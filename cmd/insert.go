@@ -27,6 +27,7 @@ import (
 var (
 	tag  string
 	page string
+	url  string
 )
 
 // insertCmd represents the insert command
@@ -40,6 +41,7 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
+
 		fmt.Println("insert called")
 		home, err := homedir.Dir()
 		filepath := home + "/.ohp"
@@ -54,6 +56,15 @@ to quickly create a Cobra application.`,
 			os.Exit(1)
 		}
 		defer file.Close()
+
+		output := page + "," + tag + "," + url + "\n"
+
+		_, err = file.Write(([]byte)(output))
+
+		if err != nil {
+			log.Fatal(err)
+			os.Exit(1)
+		}
 	},
 }
 
@@ -71,4 +82,17 @@ func init() {
 	// insertCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	insertCmd.Flags().StringVarP(&page, "page", "n", "", "url names")
 	insertCmd.Flags().StringVarP(&tag, "tag", "t", "", "tag name")
+	insertCmd.Flags().StringVarP(&url, "url", "u", "", "page url")
+
+	err := insertCmd.MarkFlagRequired("page")
+	if err != nil {
+		log.Println("page name is required")
+		os.Exit(1)
+	}
+
+	err = insertCmd.MarkFlagRequired("url")
+	if err != nil {
+		log.Println("url is required")
+		os.Exit(1)
+	}
 }
