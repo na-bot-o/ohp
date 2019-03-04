@@ -17,7 +17,14 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/mitchellh/go-homedir"
+
 	"github.com/spf13/cobra"
+)
+
+var (
+	tag  string
+	page string
 )
 
 // insertCmd represents the insert command
@@ -32,6 +39,8 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("insert called")
+		home, err = homedir.Dir()
+
 	},
 }
 
@@ -47,4 +56,6 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// insertCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	insertCmd.Flags().StringVarP(&page, "page", "n", "", "url names")
+	insertCmd.Flags().StringVarP(&tag, "tag", "t", "", "tag name")
 }
