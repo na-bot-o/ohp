@@ -27,6 +27,9 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var tag string
+var page string
+
 // openCmd represents the open command
 var openCmd = &cobra.Command{
 	Use:   "open",
@@ -83,6 +86,9 @@ to quickly create a Cobra application.`,
 
 func init() {
 	rootCmd.AddCommand(openCmd)
+
+	openCmd.Flags().StringVarP(&tag, "tag", "t", "", "tag to open")
+	openCmd.Flags().StringVarP(&page, "page", "page", "", "page to open")
 
 	// Here you will define your flags and configuration settings.
 
