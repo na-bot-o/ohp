@@ -27,8 +27,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var tag string
-var page string
+var tag_opened string
+var page_opened string
 
 // openCmd represents the open command
 var openCmd = &cobra.Command{
@@ -41,6 +41,11 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
+
+		if tag_opened == "" && page_opened == "" {
+			fmt.Println("tag or page flag is required")
+			os.Exit(1)
+		}
 
 		fmt.Println("open called")
 		var file *os.File
@@ -62,8 +67,11 @@ to quickly create a Cobra application.`,
 
 		reader := bufio.NewReaderSize(file, 4096)
 
+		var count_opened_page = 0
+
 		for {
 			line, _, err := reader.ReadLine()
+
 			if err == io.EOF {
 				break
 			} else if err != nil {
@@ -73,13 +81,16 @@ to quickly create a Cobra application.`,
 
 			data := strings.Split(string(line), ",")
 			fmt.Println(data)
+			page := data[0]
 			tag := data[1]
 			url := data[2]
 
-			fmt.Println(tag)
-			fmt.Println(url)
+			if page == page_opened || tag == tag_opened {
+				browser.OpenURL(url)
+				count_opened_page++
+			}
 
-			browser.OpenURL(url)
+			fmt.Printf("%d pages opened", count_opened_page)
 		}
 	},
 }
@@ -87,8 +98,8 @@ to quickly create a Cobra application.`,
 func init() {
 	rootCmd.AddCommand(openCmd)
 
-	openCmd.Flags().StringVarP(&tag, "tag", "t", "", "tag to open")
-	openCmd.Flags().StringVarP(&page, "page", "page", "", "page to open")
+	openCmd.Flags().StringVarP(&tag_opened, "tag", "t", "", "tag to open")
+	openCmd.Flags().StringVarP(&page_opened, "page", "p", "", "page to open")
 
 	// Here you will define your flags and configuration settings.
 
