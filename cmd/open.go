@@ -98,8 +98,8 @@ to quickly create a Cobra application.`,
 func init() {
 	rootCmd.AddCommand(openCmd)
 
-	openCmd.Flags().StringVarP(&tag_opened, "tag", "t", "", "tag to open")
-	openCmd.Flags().StringVarP(&page_opened, "page", "p", "", "page to open")
+	openCmd.Flags().StringVarP(&tag_opened, "tag", "t", "", "page tag you want to see")
+	openCmd.Flags().StringVarP(&page_opened, "page", "p", "", "page name you want to see")
 
 	// Here you will define your flags and configuration settings.
 
