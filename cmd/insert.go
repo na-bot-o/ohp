@@ -80,7 +80,7 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// insertCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-	insertCmd.Flags().StringVarP(&page, "page", "p", "", "url names")
+	insertCmd.Flags().StringVarP(&page, "page", "p", "", "page names")
 	insertCmd.Flags().StringVarP(&tag, "tag", "t", "", "tag name")
 	insertCmd.Flags().StringVarP(&url, "url", "u", "", "page url")
 
