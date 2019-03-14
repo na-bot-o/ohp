@@ -119,6 +119,29 @@ func init() {
 	// deleteCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
+func GetFileData(filepath string) (lines []string, err error) {
+	file, err := os.OpenFile(filepath, os.O_RDWR, 0755)
+	if err != nil {
+		log.Fatal(err)
+		os.Exit(1)
+	}
+	defer file.Close()
+	reader := bufio.NewReaderSize(file, 4096)
+
+	for {
+		line, _, err := reader.ReadLine()
+		if err == io.EOF {
+			break
+		} else if err != nil {
+			log.Fatal(err)
+			os.Exit(1)
+		}
+
+		lines = append(lines, string(line))
+	}
+	return lines, nil
+}
+
 //Archive .ohp file for recovering
 func ArchiveFile(filepath string, old_filepath string) {
 
