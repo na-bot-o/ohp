@@ -15,8 +15,14 @@
 package cmd
 
 import (
+	"bufio"
 	"fmt"
+	"io"
+	"log"
+	"os"
+	"strings"
 
+	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
 )
 
