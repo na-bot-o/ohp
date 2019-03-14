@@ -43,11 +43,11 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("delete called")
-		var (
-			tag  string
-			page string
-		)
-		fmt.Println(tag + " " + page)
+
+		if !IsEitherFlagUsed(tagFlag, pageFlag) {
+			fmt.Println("either page or tag flag must use")
+			os.Exit(1)
+		}
 
 		const BUFSIZE = 1024
 
@@ -170,4 +170,14 @@ func ArchiveFile(filepath string, old_filepath string) {
 		os.Exit(1)
 	}
 
+}
+
+func IsEitherFlagUsed(tagFlag string, pageFlag string) bool {
+	if tagFlag == "" && pageFlag == "" {
+		return false
+	}
+	if tagFlag != "" && pageFlag != "" {
+		return false
+	}
+	return true
 }
