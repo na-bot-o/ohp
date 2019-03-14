@@ -26,6 +26,11 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var (
+	tagFlag  string
+	pageFlag string
+)
+
 // deleteCmd represents the delete command
 var deleteCmd = &cobra.Command{
 	Use:   "delete",
@@ -83,19 +88,17 @@ to quickly create a Cobra application.`,
 		for _, line := range lines {
 
 			data := strings.Split(string(line), ",")
-			fmt.Println(data)
 
+			page := data[2]
 			tag := data[1]
-			//	url := data[2]
-			fmt.Println(tag)
 
-			if tag != "yahoo" {
+			if tag != tagFlag && page != pageFlag {
 				_, err = file.Write(([]byte)(line + "\n"))
-			}
 
-			if err != nil {
-				log.Fatal(err)
-				os.Exit(1)
+				if err != nil {
+					log.Fatal(err)
+					os.Exit(1)
+				}
 			}
 
 		}
@@ -105,8 +108,8 @@ to quickly create a Cobra application.`,
 
 func init() {
 	rootCmd.AddCommand(deleteCmd)
-	deleteCmd.Flags().StringVarP(&tag, "tag", "t", "", "deleted tag")
-	deleteCmd.Flags().StringVarP(&page, "page", "p", "", "deleted page")
+	deleteCmd.Flags().StringVarP(&tagFlag, "tag", "t", "", "deleted tag")
+	deleteCmd.Flags().StringVarP(&pageFlag, "page", "p", "", "deleted page")
 
 	// Here you will define your flags and configuration settings.
 
