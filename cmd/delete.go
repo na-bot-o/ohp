@@ -150,11 +150,16 @@ func ArchiveFile(filepath string, old_filepath string) {
 		log.Fatal(err)
 		os.Exit(1)
 	}
+	defer old_file.Close()
+
 	file, err := os.OpenFile(filepath, os.O_WRONLY, 0755)
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)
 	}
+
+	defer file.Close()
+
 	_, err = io.Copy(old_file, file)
 
 	if err != nil {
