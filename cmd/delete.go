@@ -118,3 +118,25 @@ func init() {
 	// is called directly, e.g.:
 	// deleteCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
+
+//Archive .ohp file for recovering
+func ArchiveFile(filepath string, old_filepath string) {
+
+	old_file, err := os.Create(old_filepath)
+	if err != nil {
+		log.Fatal(err)
+		os.Exit(1)
+	}
+	file, err := os.OpenFile(filepath, os.O_WRONLY, 0755)
+	if err != nil {
+		log.Fatal(err)
+		os.Exit(1)
+	}
+	_, err = io.Copy(old_file, file)
+
+	if err != nil {
+		log.Fatal(err)
+		os.Exit(1)
+	}
+
+}
