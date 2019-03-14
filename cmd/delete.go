@@ -32,11 +32,18 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("delete called")
+		var (
+			tag  string
+			page string
+		)
+		fmt.Println(tag + " " + page)
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(deleteCmd)
+	deleteCmd.Flags().StringVarP(&tag, "tag", "t", "", "deleted tag")
+	deleteCmd.Flags().StringVarP(&page, "page", "p", "", "deleted page")
 
 	// Here you will define your flags and configuration settings.
 
