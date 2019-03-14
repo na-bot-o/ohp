@@ -43,6 +43,63 @@ to quickly create a Cobra application.`,
 			page string
 		)
 		fmt.Println(tag + " " + page)
+
+		const BUFSIZE = 1024
+
+		var file *os.File
+		home, err := homedir.Dir()
+
+		if err != nil {
+			log.Fatal(err)
+			os.Exit(1)
+		}
+
+		filepath := home + "/.ohp"
+		old_filepath := home + "/.ohp_old"
+
+		_, err = os.Stat(filepath)
+
+		if err != nil {
+			log.Fatal(err)
+			fmt.Println("no recorded in favorite page")
+			os.Exit(1)
+		}
+
+		ArchiveFile(filepath, old_filepath)
+
+		var lines []string
+
+		lines, err = GetFileData(old_filepath)
+
+		fmt.Println(lines)
+
+		file, err = os.OpenFile(filepath, os.O_RDWR|os.O_CREATE, 0755)
+		defer file.Close()
+		if err != nil {
+			log.Fatal(err)
+			os.Exit(1)
+		}
+
+		for _, line := range lines {
+
+			data := strings.Split(string(line), ",")
+			fmt.Println(data)
+
+			tag := data[1]
+			//	url := data[2]
+			fmt.Println(tag)
+
+			if tag != "yahoo" {
+				_, err = file.Write(([]byte)(line + "\n"))
+			}
+
+			if err != nil {
+				log.Fatal(err)
+				os.Exit(1)
+			}
+
+		}
+
 	},
 }
 
