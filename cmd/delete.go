@@ -76,9 +76,7 @@ to quickly create a Cobra application.`,
 
 		lines, err = GetFileData(old_filepath)
 
-		fmt.Println(lines)
-
-		file, err = os.OpenFile(filepath, os.O_RDWR|os.O_CREATE, 0755)
+		file, err = os.Create(filepath)
 		defer file.Close()
 		if err != nil {
 			log.Fatal(err)
