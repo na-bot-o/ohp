@@ -15,14 +15,12 @@
 package cmd
 
 import (
-	"bufio"
 	"fmt"
-	"io"
 	"log"
 	"os"
 	"strings"
 
-	homedir "github.com/mitchellh/go-homedir"
+	"github.com/na-bot-o/ohp/data"
 	"github.com/spf13/cobra"
 )
 
@@ -52,15 +50,20 @@ to quickly create a Cobra application.`,
 		const BUFSIZE = 1024
 
 		var file *os.File
-		home, err := homedir.Dir()
+
+		filepath, err := data.GetFilePath()
 
 		if err != nil {
 			log.Fatal(err)
 			os.Exit(1)
 		}
 
-		filepath := home + "/.ohp"
-		old_filepath := home + "/.ohp_old"
+		old_filepath, err := data.GetArchivePath()
+
+		if err != nil {
+			log.Fatal(err)
+			os.Exit(1)
+		}
 
 		_, err = os.Stat(filepath)
 

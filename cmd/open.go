@@ -22,7 +22,7 @@ import (
 	"os"
 	"strings"
 
-	homedir "github.com/mitchellh/go-homedir"
+	"github.com/na-bot-o/ohp/data"
 	"github.com/pkg/browser"
 	"github.com/spf13/cobra"
 )
@@ -49,9 +49,7 @@ to quickly create a Cobra application.`,
 
 		fmt.Println("open called")
 		var file *os.File
-		home, err := homedir.Dir()
-
-		filepath := home + "/.ohp"
+		filepath, err := data.GetFilePath()
 
 		if err != nil {
 			log.Fatal(err)

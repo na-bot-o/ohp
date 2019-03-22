@@ -15,11 +15,10 @@
 package cmd
 
 import (
-	"fmt"
 	"log"
 	"os"
 
-	"github.com/mitchellh/go-homedir"
+	"github.com/na-bot-o/ohp/data"
 
 	"github.com/spf13/cobra"
 )
@@ -42,14 +41,13 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 
-		fmt.Println("insert called")
-		home, err := homedir.Dir()
-		filepath := home + "/.ohp"
+		filepath, err := data.GetFilePath()
 
 		if err != nil {
 			log.Fatal(err)
 			os.Exit(1)
 		}
+
 		file, err := os.OpenFile(filepath, os.O_APPEND|os.O_RDWR, 0755)
 		if err != nil {
 			log.Fatal(err)
