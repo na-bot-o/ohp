@@ -18,7 +18,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/na-bot-o/ohp/data"
+	"github.com/na-bot-o/ohp/file"
 
 	"github.com/spf13/cobra"
 )
@@ -41,23 +41,25 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 
-		filepath, err := data.GetFilePath()
+		dataFile := file.New("./ohp")
+
+		filePath, err := dataFile.GetPath()
 
 		if err != nil {
 			log.Fatal(err)
 			os.Exit(1)
 		}
 
-		file, err := os.OpenFile(filepath, os.O_APPEND|os.O_RDWR, 0755)
+		fp, err := os.OpenFile(filePath, os.O_APPEND|os.O_RDWR, 0755)
 		if err != nil {
 			log.Fatal(err)
 			os.Exit(1)
 		}
-		defer file.Close()
+		defer fp.Close()
 
 		output := page + "," + tag + "," + url + "\n"
 
-		_, err = file.Write(([]byte)(output))
+		_, err = fp.Write(([]byte)(output))
 
 		if err != nil {
 			log.Fatal(err)

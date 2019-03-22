@@ -21,6 +21,7 @@ import (
 	"strings"
 
 	"github.com/na-bot-o/ohp/data"
+	"github.com/na-bot-o/ohp/file"
 	"github.com/spf13/cobra"
 )
 
@@ -49,23 +50,24 @@ to quickly create a Cobra application.`,
 
 		const BUFSIZE = 1024
 
-		var file *os.File
+		dataFile := file.New("./ohp")
+		archiveFile := file.New("./ohp_old")
 
-		filepath, err := data.GetFilePath()
-
-		if err != nil {
-			log.Fatal(err)
-			os.Exit(1)
-		}
-
-		old_filepath, err := data.GetArchivePath()
+		filePath, err := dataFile.GetPath()
 
 		if err != nil {
 			log.Fatal(err)
 			os.Exit(1)
 		}
 
-		_, err = os.Stat(filepath)
+		oldFilePath, err := archiveFile.GetPath()
+
+		if err != nil {
+			log.Fatal(err)
+			os.Exit(1)
+		}
+
+		_, err = os.Stat(filePath)
 
 		if err != nil {
 			log.Fatal(err)
@@ -73,18 +75,19 @@ to quickly create a Cobra application.`,
 			os.Exit(1)
 		}
 
-		ArchiveFile(filepath, old_filepath)
+		data.ArchiveFile(filePath, oldFilePath)
 
-		var lines []string
-
-		lines, err = GetFileData(old_filepath)
-
-		file, err = os.Create(filepath)
-		defer file.Close()
+		var fp *os.File
+		fp, err = os.Create(filePath)
+		defer fp.Close()
 		if err != nil {
 			log.Fatal(err)
 			os.Exit(1)
 		}
+
+		var lines []string
+
+		lines, err = data.GetRows(oldFilePath)
 
 		for _, line := range lines {
 

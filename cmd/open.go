@@ -22,7 +22,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/na-bot-o/ohp/data"
+	"github.com/na-bot-o/ohp/file"
 	"github.com/pkg/browser"
 	"github.com/spf13/cobra"
 )
@@ -48,22 +48,26 @@ to quickly create a Cobra application.`,
 		}
 
 		fmt.Println("open called")
-		var file *os.File
-		filepath, err := data.GetFilePath()
+
+		dataFile := file.New("./ohp")
+
+		filePath, err := dataFile.GetPath()
 
 		if err != nil {
 			log.Fatal(err)
 			os.Exit(1)
 		}
 
-		file, err = os.OpenFile(filepath, os.O_RDONLY, 0644)
+		var fp *os.File
+
+		fp, err = os.OpenFile(filePath, os.O_RDONLY, 0644)
 		if err != nil {
 			log.Fatal(err)
 			os.Exit(1)
 		}
-		defer file.Close()
+		defer fp.Close()
 
-		reader := bufio.NewReaderSize(file, 4096)
+		reader := bufio.NewReaderSize(fp, 4096)
 
 		var count_opened_page = 0
 

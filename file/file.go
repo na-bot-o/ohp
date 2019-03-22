@@ -2,11 +2,11 @@ package file
 
 import homedir "github.com/mitchellh/go-homedir"
 
-type Datafile struct {
+type DataFile struct {
 	name string
 }
 
-func (df *Datafile) GetPath() (string, error) {
+func (df *DataFile) GetPath() (string, error) {
 
 	home, err := homedir.Dir()
 	filepath := home + df.name
@@ -18,6 +18,6 @@ func (df *Datafile) GetPath() (string, error) {
 	return filepath, nil
 
 }
-func New(name string) Datafile {
-	return Datafile{name}
+func New(name string) DataFile {
+	return DataFile{name}
 }
