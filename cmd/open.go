@@ -22,13 +22,12 @@ import (
 	"os"
 	"strings"
 
+	"github.com/na-bot-o/ohp/data"
 	"github.com/na-bot-o/ohp/file"
+
 	"github.com/pkg/browser"
 	"github.com/spf13/cobra"
 )
-
-var tag_opened string
-var page_opened string
 
 // openCmd represents the open command
 var openCmd = &cobra.Command{
@@ -42,7 +41,10 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 
-		if tag_opened == "" && page_opened == "" {
+		tagFlag, _ := cmd.PersistentFlags().GetString("tag")
+		nameFlag, _ := cmd.PersistentFlags().GetString("name")
+
+		if tagFlag == "" && nameFlag == "" {
 			fmt.Println("tag or page flag is required")
 			os.Exit(1)
 		}
@@ -100,8 +102,8 @@ to quickly create a Cobra application.`,
 func init() {
 	rootCmd.AddCommand(openCmd)
 
-	openCmd.Flags().StringVarP(&tag_opened, "tag", "t", "", "page tag you want to see")
-	openCmd.Flags().StringVarP(&page_opened, "page", "p", "", "page name you want to see")
+	openCmd.Flags().StringP("tag", "t", "", "page tag you want to see")
+	openCmd.Flags().StringP("name", "n", "", "page name you want to see")
 
 	// Here you will define your flags and configuration settings.
 

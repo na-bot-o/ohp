@@ -25,11 +25,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var (
-	tagFlag  string
-	pageFlag string
-)
-
 // deleteCmd represents the delete command
 var deleteCmd = &cobra.Command{
 	Use:   "delete",
@@ -43,7 +38,10 @@ to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("delete called")
 
-		if !IsEitherFlagUsed(tagFlag, pageFlag) {
+		tagFlag, _ := cmd.PersistentFlags().GetString("tag")
+		nameFlag, _ := cmd.PersistentFlags().GetString("name")
+
+		if !IsEitherFlagUsed(tagFlag, nameFlag) {
 			fmt.Println("either page or tag flag must use")
 			os.Exit(1)
 		}
@@ -112,8 +110,8 @@ to quickly create a Cobra application.`,
 
 func init() {
 	rootCmd.AddCommand(deleteCmd)
-	deleteCmd.Flags().StringVarP(&tagFlag, "tag", "t", "", "deleted tag")
-	deleteCmd.Flags().StringVarP(&pageFlag, "page", "p", "", "deleted page")
+	deleteCmd.Flags().StringP("tag", "t", "", "deleted tag")
+	deleteCmd.Flags().StringP("name", "n", "", "deleted page name")
 
 	// Here you will define your flags and configuration settings.
 
