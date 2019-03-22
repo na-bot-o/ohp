@@ -83,14 +83,12 @@ to quickly create a Cobra application.`,
 				os.Exit(1)
 			}
 
-			data := strings.Split(string(line), ",")
-			fmt.Println(data)
-			page := data[0]
-			tag := data[1]
-			url := data[2]
+			fields := strings.Split(string(line), ",")
 
-			if page == page_opened || tag == tag_opened {
-				browser.OpenURL(url)
+			page := data.New(fields[0], fields[1], fields[2])
+
+			if page.Name == nameFlag || page.Tag == tagFlag {
+				browser.OpenURL(page.Url)
 				count_opened_page++
 			}
 

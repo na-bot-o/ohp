@@ -7,6 +7,16 @@ import (
 	"os"
 )
 
+type Data struct {
+	Name string
+	Tag  string
+	Url  string
+}
+
+func New(name string, tag string, url string) Data {
+	return Data{name, tag, url}
+}
+
 func GetRows(filepath string) (rows []string, err error) {
 	file, err := os.OpenFile(filepath, os.O_RDWR, 0755)
 	if err != nil {

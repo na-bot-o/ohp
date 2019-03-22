@@ -89,13 +89,13 @@ to quickly create a Cobra application.`,
 
 		for _, line := range lines {
 
-			data := strings.Split(string(line), ",")
+			fields := strings.Split(string(line), ",")
 
-			page := data[2]
-			tag := data[1]
+			page := data.New(fields[0], fields[1], fields[2])
 
-			if tag != tagFlag && page != pageFlag {
-				_, err = file.Write(([]byte)(line + "\n"))
+			if page.Tag != tagFlag && page.Name != nameFlag {
+				err = data.Write(fp, line+"\n")
+				//	_, err = file.Write(([]byte)(line + "\n"))
 
 				if err != nil {
 					log.Fatal(err)
