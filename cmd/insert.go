@@ -25,7 +25,7 @@ import (
 
 var (
 	tag  string
-	page string
+	name string
 	url  string
 )
 
@@ -54,7 +54,7 @@ var insertCmd = &cobra.Command{
 		}
 		defer fp.Close()
 
-		output := page + "," + tag + "," + url + "\n"
+		output := name + "," + tag + "," + url + "\n"
 
 		_, err = fp.Write(([]byte)(output))
 
@@ -77,11 +77,11 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// insertCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-	insertCmd.Flags().StringVarP(&page, "page", "p", "", "page names")
+	insertCmd.Flags().StringVarP(&name, "name", "n", "", "page names")
 	insertCmd.Flags().StringVarP(&tag, "tag", "t", "", "tag name")
 	insertCmd.Flags().StringVarP(&url, "url", "u", "", "page url")
 
-	err := insertCmd.MarkFlagRequired("page")
+	err := insertCmd.MarkFlagRequired("name")
 	if err != nil {
 		log.Println("page name is required")
 		os.Exit(1)
