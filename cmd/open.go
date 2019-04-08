@@ -32,13 +32,9 @@ import (
 // openCmd represents the open command
 var openCmd = &cobra.Command{
 	Use:   "open",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "open help page",
+	Long: `this command opens registered help page.
+				 search tag or page indicated flag, open matched url`,
 	Run: func(cmd *cobra.Command, args []string) {
 
 		tagFlag, _ := cmd.PersistentFlags().GetString("tag")
