@@ -1,23 +1,24 @@
-package data
+package page
 
 import (
 	"bufio"
 	"io"
 	"log"
 	"os"
+	"strings"
 )
 
-type Data struct {
+type Page struct {
 	Name string
 	Tag  string
 	Url  string
 }
 
-func New(name string, tag string, url string) Data {
-	return Data{name, tag, url}
+func New(name string, tag string, url string) Page {
+	return Page{name, tag, url}
 }
 
-func GetRows(filepath string) (rows []string, err error) {
+func GetRows(filepath string) (rows []Page, err error) {
 	file, err := os.OpenFile(filepath, os.O_RDWR, 0755)
 	if err != nil {
 		log.Fatal(err)
@@ -35,7 +36,11 @@ func GetRows(filepath string) (rows []string, err error) {
 			os.Exit(1)
 		}
 
-		rows = append(rows, string(row))
+		fields := strings.Split(string(row), ",")
+
+		page := New(fields[0], fields[1], fields[2])
+
+		rows = append(rows, page)
 	}
 	return rows, nil
 }

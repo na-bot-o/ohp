@@ -22,7 +22,6 @@ import (
 	"os"
 	"strings"
 
-	"github.com/na-bot-o/ohp/data"
 	"github.com/na-bot-o/ohp/file"
 
 	"github.com/pkg/browser"

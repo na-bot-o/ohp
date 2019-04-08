@@ -18,10 +18,9 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"strings"
 
-	"github.com/na-bot-o/ohp/data"
 	"github.com/na-bot-o/ohp/file"
+	"github.com/na-bot-o/ohp/page"
 	"github.com/spf13/cobra"
 )
 
@@ -68,7 +67,7 @@ var deleteCmd = &cobra.Command{
 			os.Exit(1)
 		}
 
-		data.ArchiveFile(filePath, oldFilePath)
+		page.ArchiveFile(filePath, oldFilePath)
 
 		var fp *os.File
 		fp, err = os.Create(filePath)

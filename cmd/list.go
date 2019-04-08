@@ -18,8 +18,8 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"strings"
 
+	"github.com/na-bot-o/ohp/page"
 	"github.com/na-bot-o/ohp/util"
 
 	homedir "github.com/mitchellh/go-homedir"
