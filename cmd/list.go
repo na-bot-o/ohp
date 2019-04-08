@@ -20,6 +20,8 @@ import (
 	"os"
 	"strings"
 
+	"github.com/na-bot-o/ohp/util"
+
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
 )
@@ -31,6 +33,10 @@ var listCmd = &cobra.Command{
 	Long: `this command display recorded page list
 					you can find what page inserted`,
 	Run: func(cmd *cobra.Command, args []string) {
+
+		util.LoadEnv()
+		fmt.Printf("pagefile=%s,archive=%s", os.Getenv("PAGEFILE"), os.Getenv("ARCHIVEFILE"))
+
 		fmt.Println("list called")
 
 		home, err := homedir.Dir()
