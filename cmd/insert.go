@@ -19,6 +19,7 @@ import (
 	"os"
 
 	"github.com/na-bot-o/ohp/file"
+	"github.com/na-bot-o/ohp/util"
 
 	"github.com/spf13/cobra"
 )
@@ -38,7 +39,9 @@ var insertCmd = &cobra.Command{
 				you need page name and url name`,
 	Run: func(cmd *cobra.Command, args []string) {
 
-		dataFile := file.New("./ohp")
+		util.LoadEnv()
+
+		dataFile := file.New(os.Getenv("PAGEFILE"))
 
 		filePath, err := dataFile.GetPath()
 

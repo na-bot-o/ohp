@@ -21,6 +21,7 @@ import (
 
 	"github.com/na-bot-o/ohp/file"
 	"github.com/na-bot-o/ohp/page"
+	"github.com/na-bot-o/ohp/util"
 	"github.com/spf13/cobra"
 )
 
@@ -42,8 +43,9 @@ var deleteCmd = &cobra.Command{
 
 		const BUFSIZE = 1024
 
-		dataFile := file.New("./ohp")
-		archiveFile := file.New("./ohp_old")
+		util.LoadEnv()
+		dataFile := file.New("PAGEFILE")
+		archiveFile := file.New("ARCHIVEFILE")
 
 		filePath, err := dataFile.GetPath()
 
