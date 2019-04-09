@@ -1,23 +1,69 @@
 package file
 
-import homedir "github.com/mitchellh/go-homedir"
+import (
+	"fmt"
+	"io"
+	"log"
+	"os"
+
+	homedir "github.com/mitchellh/go-homedir"
+)
 
 type DataFile struct {
-	name string
+	Name string
+	Path string
 }
 
-func (df *DataFile) GetPath() (string, error) {
+// func (df *DataFile) GetPath() (string, error) {
 
-	home, err := homedir.Dir()
-	filepath := home + df.name
+// 	home, err := homedir.Dir()
+// 	filepath := home + df.Name
+
+// 	if err != nil {
+// 		return "", err
+// 	}
+
+// 	return filepath, nil
+
+// }
+
+//Archive .ohp file for recovering
+func (df *DataFile) CopyToArchiveFile(archive DataFile) {
+
+	old_file, err := os.Create(archive.Path)
+	if err != nil {
+		log.Fatal(err)
+		os.Exit(1)
+	}
+	defer old_file.Close()
+
+	file, err := os.OpenFile(df.Path, os.O_RDONLY, 0666)
 
 	if err != nil {
-		return "", err
+		log.Fatal(err)
+		os.Exit(1)
 	}
 
-	return filepath, nil
+	defer file.Close()
+
+	_, err = io.Copy(old_file, file)
+
+	if err != nil {
+		log.Fatal(err)
+		os.Exit(1)
+	}
 
 }
+
 func New(name string) DataFile {
-	return DataFile{name}
+
+	home, err := homedir.Dir()
+	filepath := home + name
+
+	if err != nil {
+		fmt.Println("can't get homedir")
+		os.Exit(1)
+	}
+
+	return DataFile{name, filepath}
 }
