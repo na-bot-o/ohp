@@ -45,34 +45,6 @@ func GetRows(filepath string) (rows []Page, err error) {
 	return rows, nil
 }
 
-//Archive .ohp file for recovering
-func ArchiveFile(filepath string, old_filepath string) {
-
-	old_file, err := os.Create(old_filepath)
-	if err != nil {
-		log.Fatal(err)
-		os.Exit(1)
-	}
-	defer old_file.Close()
-
-	file, err := os.OpenFile(filepath, os.O_RDONLY, 0666)
-
-	if err != nil {
-		log.Fatal(err)
-		os.Exit(1)
-	}
-
-	defer file.Close()
-
-	_, err = io.Copy(old_file, file)
-
-	if err != nil {
-		log.Fatal(err)
-		os.Exit(1)
-	}
-
-}
-
 func Write(file *os.File, output string) error {
 	_, err := file.Write(([]byte)(output))
 

@@ -16,13 +16,12 @@ package cmd
 
 import (
 	"fmt"
-	"log"
 	"os"
 
+	"github.com/na-bot-o/ohp/file"
 	"github.com/na-bot-o/ohp/page"
 	"github.com/na-bot-o/ohp/util"
 
-	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
 )
 
@@ -35,20 +34,20 @@ var listCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 
 		util.LoadEnv()
-		fmt.Printf("pagefile=%s,archive=%s", os.Getenv("PAGEFILE"), os.Getenv("ARCHIVEFILE"))
 
 		fmt.Println("list called")
 
-		home, err := homedir.Dir()
-		filepath := home + "/.ohp"
+		dataFile := file.New(os.Getenv("PAGEFILE"))
+
+		filePath := dataFile.Path
+
+		var lines []page.Page
+
+		lines, err := page.GetRows(filePath)
 
 		if err != nil {
-			log.Fatal(err)
 			os.Exit(1)
 		}
-		var lines []string
-
-		lines, err = GetFileData(filepath)
 
 		fmt.Println("-------------------------------------------------")
 		fmt.Println("|   " + "page" + "   |   " + "tag" + "   |   " + "url" + "   |   ")

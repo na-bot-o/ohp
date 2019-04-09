@@ -47,41 +47,19 @@ var deleteCmd = &cobra.Command{
 		dataFile := file.New("PAGEFILE")
 		archiveFile := file.New("ARCHIVEFILE")
 
-		filePath, err := dataFile.GetPath()
-
-		if err != nil {
-			log.Fatal(err)
-			os.Exit(1)
-		}
-
-		oldFilePath, err := archiveFile.GetPath()
-
-		if err != nil {
-			log.Fatal(err)
-			os.Exit(1)
-		}
-
-		_, err = os.Stat(filePath)
-
-		if err != nil {
-			log.Fatal(err)
-			fmt.Println("no recorded in favorite page")
-			os.Exit(1)
-		}
-
-		page.ArchiveFile(filePath, oldFilePath)
+		dataFile.CopyToArchiveFile(archiveFile)
 
 		var fp *os.File
-		fp, err = os.Create(filePath)
+		fp, err := os.Create(dataFile.Path)
 		defer fp.Close()
 		if err != nil {
 			log.Fatal(err)
 			os.Exit(1)
 		}
 
-		var lines []string
+		var lines []page.Page
 
-		lines, err = data.GetRows(oldFilePath)
+		lines, err = page.GetRows(archiveFile.Path)
 
 		for _, line := range lines {
 

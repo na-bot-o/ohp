@@ -50,16 +50,9 @@ var openCmd = &cobra.Command{
 		util.LoadEnv()
 		dataFile := file.New(os.Getenv("PAGEFILE"))
 
-		filePath, err := dataFile.GetPath()
-
-		if err != nil {
-			log.Fatal(err)
-			os.Exit(1)
-		}
-
 		var fp *os.File
 
-		fp, err = os.OpenFile(filePath, os.O_RDONLY, 0644)
+		fp, err := os.OpenFile(dataFile.Path, os.O_RDONLY, 0644)
 		if err != nil {
 			log.Fatal(err)
 			os.Exit(1)
