@@ -59,16 +59,12 @@ var deleteCmd = &cobra.Command{
 
 		var lines []page.Page
 
-		lines, err = page.GetRows(archiveFile.Path)
+		lines, err = archiveFile.GetPages()
 
 		for _, line := range lines {
 
-			fields := strings.Split(string(line), ",")
-
-			page := data.New(fields[0], fields[1], fields[2])
-
-			if page.Tag != tagFlag && page.Name != nameFlag {
-				err = data.Write(fp, line+"\n")
+			if line.Tag != tagFlag && line.Name != nameFlag {
+				//	err = page.Write(fp, line+"\n")
 				//	_, err = file.Write(([]byte)(line + "\n"))
 
 				if err != nil {

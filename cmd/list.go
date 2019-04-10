@@ -41,7 +41,7 @@ var listCmd = &cobra.Command{
 
 		var lines []page.Page
 
-		lines, err := page.GetRows(dataFile.Path)
+		lines, err := dataFile.GetPages()
 
 		if err != nil {
 			os.Exit(1)
@@ -53,13 +53,7 @@ var listCmd = &cobra.Command{
 
 		for _, line := range lines {
 
-			data := strings.Split(string(line), ",")
-
-			page := data[0]
-			tag := data[1]
-			url := data[2]
-
-			fmt.Println("| " + page + " | " + tag + " | " + url + " | ")
+			fmt.Println("| " + line.Name + " | " + line.Tag + " | " + line.Url + " | ")
 			fmt.Println("----------------------------------------------")
 
 		}

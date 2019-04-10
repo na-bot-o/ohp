@@ -15,12 +15,8 @@
 package cmd
 
 import (
-	"bufio"
 	"fmt"
-	"io"
-	"log"
 	"os"
-	"strings"
 
 	"github.com/na-bot-o/ohp/data"
 	"github.com/na-bot-o/ohp/util"
@@ -50,40 +46,22 @@ var openCmd = &cobra.Command{
 		util.LoadEnv()
 		dataFile := data.New(os.Getenv("PAGEFILE"))
 
-		var fp *os.File
+		lines, err := dataFile.GetPages()
 
-		fp, err := os.OpenFile(dataFile.Path, os.O_RDONLY, 0644)
 		if err != nil {
-			log.Fatal(err)
+			fmt.Println(err)
 			os.Exit(1)
 		}
-		defer fp.Close()
 
-		reader := bufio.NewReaderSize(fp, 4096)
+		var count_opened_page int
 
-		var count_opened_page = 0
-
-		for {
-			line, _, err := reader.ReadLine()
-
-			if err == io.EOF {
-				break
-			} else if err != nil {
-				log.Fatal(err)
-				os.Exit(1)
-			}
-
-			fields := strings.Split(string(line), ",")
-
-			page := data.New(fields[0], fields[1], fields[2])
-
-			if page.Name == nameFlag || page.Tag == tagFlag {
-				browser.OpenURL(page.Url)
+		for _, line := range lines {
+			if line.Name == nameFlag || line.Tag == tagFlag {
+				browser.OpenURL(line.Url)
 				count_opened_page++
 			}
-
-			fmt.Printf("%d pages opened", count_opened_page)
 		}
+		fmt.Printf("%d pages opened", count_opened_page)
 	},
 }
 
