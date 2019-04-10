@@ -47,7 +47,7 @@ var deleteCmd = &cobra.Command{
 		dataFile := data.New("PAGEFILE")
 		archiveFile := data.New("ARCHIVEFILE")
 
-		dataFile.CopyToArchiveFile(archiveFile)
+		dataFile.CopyTo(archiveFile)
 
 		var fp *os.File
 		fp, err := os.Create(dataFile.Path)

@@ -43,9 +43,7 @@ var insertCmd = &cobra.Command{
 
 		dataFile := data.New(os.Getenv("PAGEFILE"))
 
-		filePath := dataFile.Path
-
-		fp, err := os.OpenFile(filePath, os.O_APPEND|os.O_RDWR, 0755)
+		fp, err := os.OpenFile(dataFile.Path, os.O_APPEND|os.O_RDWR, 0755)
 		if err != nil {
 			log.Fatal(err)
 			os.Exit(1)

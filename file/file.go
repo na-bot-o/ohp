@@ -28,7 +28,7 @@ type Data struct {
 // }
 
 //Archive .ohp file for recovering
-func (df *DataFile) CopyToArchiveFile(archive DataFile) {
+func (d *Data) CopyTo(archive Data) {
 
 	old_file, err := os.Create(archive.Path)
 	if err != nil {
@@ -37,7 +37,7 @@ func (df *DataFile) CopyToArchiveFile(archive DataFile) {
 	}
 	defer old_file.Close()
 
-	file, err := os.OpenFile(df.Path, os.O_RDONLY, 0666)
+	file, err := os.OpenFile(d.Path, os.O_RDONLY, 0666)
 
 	if err != nil {
 		log.Fatal(err)
@@ -65,5 +65,5 @@ func New(name string) Data {
 		os.Exit(1)
 	}
 
-	return DataFile{name, filepath}
+	return Data{name, filepath}
 }

@@ -41,7 +41,7 @@ var listCmd = &cobra.Command{
 
 		var lines []page.Page
 
-		lines, err := page.GetRows(filePath)
+		lines, err := page.GetRows(dataFile.Path)
 
 		if err != nil {
 			os.Exit(1)
