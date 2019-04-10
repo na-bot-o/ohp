@@ -18,7 +18,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/na-bot-o/ohp/file"
+	"github.com/na-bot-o/ohp/data"
 	"github.com/na-bot-o/ohp/util"
 
 	"github.com/spf13/cobra"
@@ -41,7 +41,7 @@ var insertCmd = &cobra.Command{
 
 		util.LoadEnv()
 
-		dataFile := file.New(os.Getenv("PAGEFILE"))
+		dataFile := data.New(os.Getenv("PAGEFILE"))
 
 		filePath := dataFile.Path
 

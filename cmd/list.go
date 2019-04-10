@@ -18,7 +18,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/na-bot-o/ohp/file"
+	"github.com/na-bot-o/ohp/data"
 	"github.com/na-bot-o/ohp/page"
 	"github.com/na-bot-o/ohp/util"
 
@@ -37,9 +37,7 @@ var listCmd = &cobra.Command{
 
 		fmt.Println("list called")
 
-		dataFile := file.New(os.Getenv("PAGEFILE"))
-
-		filePath := dataFile.Path
+		dataFile := data.New(os.Getenv("PAGEFILE"))
 
 		var lines []page.Page
 

@@ -22,7 +22,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/na-bot-o/ohp/file"
+	"github.com/na-bot-o/ohp/data"
 	"github.com/na-bot-o/ohp/util"
 
 	"github.com/pkg/browser"
@@ -48,7 +48,7 @@ var openCmd = &cobra.Command{
 		fmt.Println("open called")
 
 		util.LoadEnv()
-		dataFile := file.New(os.Getenv("PAGEFILE"))
+		dataFile := data.New(os.Getenv("PAGEFILE"))
 
 		var fp *os.File
 

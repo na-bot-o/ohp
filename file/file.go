@@ -1,4 +1,4 @@
-package file
+package data
 
 import (
 	"fmt"
@@ -9,7 +9,7 @@ import (
 	homedir "github.com/mitchellh/go-homedir"
 )
 
-type DataFile struct {
+type Data struct {
 	Name string
 	Path string
 }
@@ -55,7 +55,7 @@ func (df *DataFile) CopyToArchiveFile(archive DataFile) {
 
 }
 
-func New(name string) DataFile {
+func New(name string) Data {
 
 	home, err := homedir.Dir()
 	filepath := home + name

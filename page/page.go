@@ -6,6 +6,8 @@ import (
 	"log"
 	"os"
 	"strings"
+
+	"github.com/na-bot-o/ohp/data"
 )
 
 type Page struct {
@@ -18,8 +20,8 @@ func New(name string, tag string, url string) Page {
 	return Page{name, tag, url}
 }
 
-func GetRows(filepath string) (rows []Page, err error) {
-	file, err := os.OpenFile(filepath, os.O_RDWR, 0755)
+func GetRows(datafile data.Data) (rows []Page, err error) {
+	file, err := os.OpenFile(datafile.Path, os.O_RDWR, 0755)
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)
