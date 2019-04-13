@@ -1,4 +1,4 @@
-// Copyright © 2019 NAME HERE <EMAIL ADDRESS>
+// Copyright © 2019 Naoto Yoshimoto <namusic7010@gmail.com>
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -51,15 +51,15 @@ var openCmd = &cobra.Command{
 			os.Exit(1)
 		}
 
-		var count_opened_page int
+		var countOpenedPage int
 
 		for _, line := range lines {
 			if line.Name == nameFlag || line.Tag == tagFlag {
 				browser.OpenURL(line.Url)
-				count_opened_page++
+				countOpenedPage++
 			}
 		}
-		fmt.Printf("%d pages opened", count_opened_page)
+		fmt.Printf("%d pages opened", countOpenedPage)
 	},
 }
 

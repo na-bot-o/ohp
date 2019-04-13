@@ -1,4 +1,4 @@
-// Copyright © 2019 NAME HERE <EMAIL ADDRESS>
+// Copyright © 2019 Naoto Yoshimoto <namusic7010@gmail.com>
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -49,9 +49,9 @@ var insertCmd = &cobra.Command{
 		}
 		defer fp.Close()
 
-		insert_page := page.New(nameFlag, tagFlag, urlFlag)
+		insertPage := page.New(nameFlag, tagFlag, urlFlag)
 
-		err = insert_page.WrittenIn(fp)
+		err = insertPage.WrittenIn(fp)
 
 		if err != nil {
 			log.Fatal(err)
