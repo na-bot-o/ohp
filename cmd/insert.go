@@ -25,12 +25,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var (
-	tag  string
-	name string
-	url  string
-)
-
 // insertCmd represents the insert command
 var insertCmd = &cobra.Command{
 	Use:   "insert",
@@ -42,6 +36,10 @@ var insertCmd = &cobra.Command{
 
 		util.LoadEnv()
 
+		tagFlag, _ := cmd.PersistentFlags().GetString("tag")
+		nameFlag, _ := cmd.PersistentFlags().GetString("name")
+		urlFlag, _ := cmd.PersistentFlags().GetString("url")
+
 		dataFile := data.New(os.Getenv("PAGEFILE"))
 
 		fp, err := os.OpenFile(dataFile.Path, os.O_APPEND|os.O_RDWR, 0755)
@@ -51,7 +49,7 @@ var insertCmd = &cobra.Command{
 		}
 		defer fp.Close()
 
-		insert_page := page.New(name, tag, url)
+		insert_page := page.New(nameFlag, tagFlag, urlFlag)
 
 		err = insert_page.WrittenIn(fp)
 
@@ -74,9 +72,9 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// insertCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-	insertCmd.Flags().StringVarP(&name, "name", "n", "", "page names")
-	insertCmd.Flags().StringVarP(&tag, "tag", "t", "", "tag name")
-	insertCmd.Flags().StringVarP(&url, "url", "u", "", "page url")
+	insertCmd.Flags().StringP("name", "n", "", "page names")
+	insertCmd.Flags().StringP("tag", "t", "", "tag name")
+	insertCmd.Flags().StringP("url", "u", "", "page url")
 
 	err := insertCmd.MarkFlagRequired("name")
 	if err != nil {
