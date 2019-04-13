@@ -35,7 +35,7 @@ var deleteCmd = &cobra.Command{
 		tagFlag, _ := cmd.PersistentFlags().GetString("tag")
 		nameFlag, _ := cmd.PersistentFlags().GetString("name")
 
-		if !IsEitherFlagUsed(tagFlag, nameFlag) {
+		if !IsTagOrPageFlagUsed(tagFlag, nameFlag) {
 			fmt.Println("either page or tag flag must use")
 			os.Exit(1)
 		}
@@ -95,7 +95,8 @@ func init() {
 	// deleteCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
-func IsEitherFlagUsed(tagFlag string, pageFlag string) bool {
+//check whether have tag or page flag when execute delete command
+func IsTagOrPageFlagUsed(tagFlag string, pageFlag string) bool {
 	if tagFlag == "" && pageFlag == "" {
 		return false
 	}
