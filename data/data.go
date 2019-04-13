@@ -78,7 +78,7 @@ func (d *Data) GetPages() (pages []page.Page, err error) {
 func New(name string) Data {
 
 	home, err := homedir.Dir()
-	filepath := home + name
+	filepath := home + "/" + name
 
 	if err != nil {
 		fmt.Println("can't get homedir")

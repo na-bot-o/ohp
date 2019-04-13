@@ -6,7 +6,7 @@ import (
 )
 
 func TestGetDataFilePath(t *testing.T) {
-	datafile := New("./ohp")
+	datafile := New(".ohp")
 
 	home := os.Getenv("HOME")
 
