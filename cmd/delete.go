@@ -31,7 +31,6 @@ var deleteCmd = &cobra.Command{
 	Short: "delete help page url",
 	Long:  `delete page url records matched name indicated tag or page flag`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("delete called")
 
 		tagFlag, _ := cmd.PersistentFlags().GetString("tag")
 		nameFlag, _ := cmd.PersistentFlags().GetString("name")
@@ -44,6 +43,8 @@ var deleteCmd = &cobra.Command{
 		const BUFSIZE = 1024
 
 		util.LoadEnv()
+
+		//copy file to archive for revovering
 		dataFile := data.New("PAGEFILE")
 		archiveFile := data.New("ARCHIVEFILE")
 

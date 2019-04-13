@@ -35,8 +35,6 @@ var listCmd = &cobra.Command{
 
 		util.LoadEnv()
 
-		fmt.Println("list called")
-
 		dataFile := data.New(os.Getenv("PAGEFILE"))
 
 		var lines []page.Page

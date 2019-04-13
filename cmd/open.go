@@ -41,8 +41,6 @@ var openCmd = &cobra.Command{
 			os.Exit(1)
 		}
 
-		fmt.Println("open called")
-
 		util.LoadEnv()
 		dataFile := data.New(os.Getenv("PAGEFILE"))
 
