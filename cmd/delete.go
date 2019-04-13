@@ -65,8 +65,8 @@ var deleteCmd = &cobra.Command{
 		for _, line := range lines {
 
 			if line.Tag != tagFlag && line.Name != nameFlag {
-				//	err = page.Write(fp, line+"\n")
-				//	_, err = file.Write(([]byte)(line + "\n"))
+
+				err = line.WrittenIn(fp)
 
 				if err != nil {
 					log.Fatal(err)

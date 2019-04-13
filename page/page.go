@@ -1,8 +1,6 @@
 package page
 
-import (
-	"os"
-)
+import "os"
 
 type Page struct {
 	Name string
@@ -14,8 +12,10 @@ func New(name string, tag string, url string) Page {
 	return Page{name, tag, url}
 }
 
-func Write(file *os.File, output string) error {
-	_, err := file.Write(([]byte)(output))
+func (p *Page) WrittenIn(file *os.File) error {
+
+	insert_format := p.Name + "," + p.Tag + "," + p.Url + "\n"
+	_, err := file.Write(([]byte)(insert_format))
 
 	return err
 }

@@ -19,6 +19,7 @@ import (
 	"os"
 
 	"github.com/na-bot-o/ohp/data"
+	"github.com/na-bot-o/ohp/page"
 	"github.com/na-bot-o/ohp/util"
 
 	"github.com/spf13/cobra"
@@ -50,9 +51,9 @@ var insertCmd = &cobra.Command{
 		}
 		defer fp.Close()
 
-		output := name + "," + tag + "," + url + "\n"
+		insert_page := page.New(name, tag, url)
 
-		_, err = fp.Write(([]byte)(output))
+		err = insert_page.WrittenIn(fp)
 
 		if err != nil {
 			log.Fatal(err)
