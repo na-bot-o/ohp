@@ -95,7 +95,7 @@ func init() {
 	// deleteCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
-//check whether have tag or page flag when execute delete command
+// IsTagOrPageFlagUsed checkes whether have tag or page flag when execute delete command
 func IsTagOrPageFlagUsed(tagFlag string, pageFlag string) bool {
 	if tagFlag == "" && pageFlag == "" {
 		return false
