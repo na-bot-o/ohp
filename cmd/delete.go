@@ -1,4 +1,4 @@
-// Copyright © 2019 NAME HERE <EMAIL ADDRESS>
+// Copyright © 2019 Naoto Yoshimoto <namusic7010@gmail.com>
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,83 +15,58 @@
 package cmd
 
 import (
-	"bufio"
 	"fmt"
-	"io"
 	"log"
 	"os"
-	"strings"
 
-	homedir "github.com/mitchellh/go-homedir"
+	"github.com/na-bot-o/ohp/data"
+	"github.com/na-bot-o/ohp/page"
+	"github.com/na-bot-o/ohp/util"
 	"github.com/spf13/cobra"
-)
-
-var (
-	tagFlag  string
-	pageFlag string
 )
 
 // deleteCmd represents the delete command
 var deleteCmd = &cobra.Command{
 	Use:   "delete",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "delete help page url",
+	Long:  `delete page url records matched name indicated tag or page flag`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("delete called")
 
-		if !IsEitherFlagUsed(tagFlag, pageFlag) {
+		tagFlag, _ := cmd.Flags().GetString("tag")
+		nameFlag, _ := cmd.Flags().GetString("name")
+
+		if !IsTagOrPageFlagUsed(tagFlag, nameFlag) {
 			fmt.Println("either page or tag flag must use")
 			os.Exit(1)
 		}
 
 		const BUFSIZE = 1024
 
-		var file *os.File
-		home, err := homedir.Dir()
+		env := util.LoadEnv()
 
+		//copy file to archive for revovering
+		dataFile := data.New(env.FileName)
+		archiveFile := data.New(env.ArchiveName)
+
+		dataFile.CopyTo(archiveFile)
+
+		var fp *os.File
+		fp, err := os.Create(dataFile.Path)
+		defer fp.Close()
 		if err != nil {
 			log.Fatal(err)
 			os.Exit(1)
 		}
 
-		filepath := home + "/.ohp"
-		old_filepath := home + "/.ohp_old"
+		var lines []page.Page
 
-		_, err = os.Stat(filepath)
-
-		if err != nil {
-			log.Fatal(err)
-			fmt.Println("no recorded in favorite page")
-			os.Exit(1)
-		}
-
-		ArchiveFile(filepath, old_filepath)
-
-		var lines []string
-
-		lines, err = GetFileData(old_filepath)
-
-		file, err = os.Create(filepath)
-		defer file.Close()
-		if err != nil {
-			log.Fatal(err)
-			os.Exit(1)
-		}
+		lines, err = archiveFile.GetPages()
 
 		for _, line := range lines {
 
-			data := strings.Split(string(line), ",")
+			if line.Tag != tagFlag && line.Name != nameFlag {
 
-			page := data[2]
-			tag := data[1]
-
-			if tag != tagFlag && page != pageFlag {
-				_, err = file.Write(([]byte)(line + "\n"))
+				err = line.WrittenIn(fp)
 
 				if err != nil {
 					log.Fatal(err)
@@ -106,8 +81,8 @@ to quickly create a Cobra application.`,
 
 func init() {
 	rootCmd.AddCommand(deleteCmd)
-	deleteCmd.Flags().StringVarP(&tagFlag, "tag", "t", "", "deleted tag")
-	deleteCmd.Flags().StringVarP(&pageFlag, "page", "p", "", "deleted page")
+	deleteCmd.Flags().StringP("tag", "t", "", "deleted tag")
+	deleteCmd.Flags().StringP("name", "n", "", "deleted page name")
 
 	// Here you will define your flags and configuration settings.
 
@@ -120,58 +95,8 @@ func init() {
 	// deleteCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
-func GetFileData(filepath string) (lines []string, err error) {
-	file, err := os.OpenFile(filepath, os.O_RDWR, 0755)
-	if err != nil {
-		log.Fatal(err)
-		os.Exit(1)
-	}
-	defer file.Close()
-	reader := bufio.NewReaderSize(file, 4096)
-
-	for {
-		line, _, err := reader.ReadLine()
-		if err == io.EOF {
-			break
-		} else if err != nil {
-			log.Fatal(err)
-			os.Exit(1)
-		}
-
-		lines = append(lines, string(line))
-	}
-	return lines, nil
-}
-
-//Archive .ohp file for recovering
-func ArchiveFile(filepath string, old_filepath string) {
-
-	old_file, err := os.Create(old_filepath)
-	if err != nil {
-		log.Fatal(err)
-		os.Exit(1)
-	}
-	defer old_file.Close()
-
-	file, err := os.OpenFile(filepath, os.O_RDONLY, 0666)
-	//file, err := os.Open(filepath)
-	if err != nil {
-		log.Fatal(err)
-		os.Exit(1)
-	}
-
-	defer file.Close()
-
-	_, err = io.Copy(old_file, file)
-
-	if err != nil {
-		log.Fatal(err)
-		os.Exit(1)
-	}
-
-}
-
-func IsEitherFlagUsed(tagFlag string, pageFlag string) bool {
+// IsTagOrPageFlagUsed checkes whether have tag or page flag when execute delete command
+func IsTagOrPageFlagUsed(tagFlag string, pageFlag string) bool {
 	if tagFlag == "" && pageFlag == "" {
 		return false
 	}

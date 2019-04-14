@@ -1,4 +1,4 @@
-// Copyright © 2019 NAME HERE <EMAIL ADDRESS>
+// Copyright © 2019 Naoto Yoshimoto <namusic7010@gmail.com>
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,37 +16,35 @@ package cmd
 
 import (
 	"fmt"
-	"log"
 	"os"
-	"strings"
 
-	homedir "github.com/mitchellh/go-homedir"
+	"github.com/na-bot-o/ohp/data"
+	"github.com/na-bot-o/ohp/page"
+	"github.com/na-bot-o/ohp/util"
+
 	"github.com/spf13/cobra"
 )
 
 // listCmd represents the list command
 var listCmd = &cobra.Command{
 	Use:   "list",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "show recorded page list",
+	Long: `this command display recorded page list
+					you can find what page inserted`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("list called")
 
-		home, err := homedir.Dir()
-		filepath := home + "/.ohp"
+		//get file and archive name
+		env := util.LoadEnv()
+
+		dataFile := data.New(env.FileName)
+
+		var lines []page.Page
+
+		lines, err := dataFile.GetPages()
 
 		if err != nil {
-			log.Fatal(err)
 			os.Exit(1)
 		}
-		var lines []string
-
-		lines, err = GetFileData(filepath)
 
 		fmt.Println("-------------------------------------------------")
 		fmt.Println("|   " + "page" + "   |   " + "tag" + "   |   " + "url" + "   |   ")
@@ -54,13 +52,7 @@ to quickly create a Cobra application.`,
 
 		for _, line := range lines {
 
-			data := strings.Split(string(line), ",")
-
-			page := data[0]
-			tag := data[1]
-			url := data[2]
-
-			fmt.Println("| " + page + " | " + tag + " | " + url + " | ")
+			fmt.Println("| " + line.Name + " | " + line.Tag + " | " + line.Url + " | ")
 			fmt.Println("----------------------------------------------")
 
 		}

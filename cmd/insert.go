@@ -1,4 +1,4 @@
-// Copyright © 2019 NAME HERE <EMAIL ADDRESS>
+// Copyright © 2019 Naoto Yoshimoto <namusic7010@gmail.com>
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,51 +15,43 @@
 package cmd
 
 import (
-	"fmt"
 	"log"
 	"os"
 
-	"github.com/mitchellh/go-homedir"
+	"github.com/na-bot-o/ohp/data"
+	"github.com/na-bot-o/ohp/page"
+	"github.com/na-bot-o/ohp/util"
 
 	"github.com/spf13/cobra"
-)
-
-var (
-	tag  string
-	page string
-	url  string
 )
 
 // insertCmd represents the insert command
 var insertCmd = &cobra.Command{
 	Use:   "insert",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "insert help page",
+	Long: `this command registeres help page
+				flag is page name, tag name, and page url
+				you need page name and url name`,
 	Run: func(cmd *cobra.Command, args []string) {
 
-		fmt.Println("insert called")
-		home, err := homedir.Dir()
-		filepath := home + "/.ohp"
+		env := util.LoadEnv()
 
+		tagFlag, _ := cmd.Flags().GetString("tag")
+		nameFlag, _ := cmd.Flags().GetString("name")
+		urlFlag, _ := cmd.Flags().GetString("url")
+
+		dataFile := data.New(env.FileName)
+
+		fp, err := os.OpenFile(dataFile.Path, os.O_APPEND|os.O_RDWR, 0755)
 		if err != nil {
 			log.Fatal(err)
 			os.Exit(1)
 		}
-		file, err := os.OpenFile(filepath, os.O_APPEND|os.O_RDWR, 0755)
-		if err != nil {
-			log.Fatal(err)
-			os.Exit(1)
-		}
-		defer file.Close()
+		defer fp.Close()
 
-		output := page + "," + tag + "," + url + "\n"
+		insertPage := page.New(nameFlag, tagFlag, urlFlag)
 
-		_, err = file.Write(([]byte)(output))
+		err = insertPage.WrittenIn(fp)
 
 		if err != nil {
 			log.Fatal(err)
@@ -80,11 +72,11 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// insertCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-	insertCmd.Flags().StringVarP(&page, "page", "p", "", "page names")
-	insertCmd.Flags().StringVarP(&tag, "tag", "t", "", "tag name")
-	insertCmd.Flags().StringVarP(&url, "url", "u", "", "page url")
+	insertCmd.Flags().StringP("name", "n", "", "page names")
+	insertCmd.Flags().StringP("tag", "t", "", "tag name")
+	insertCmd.Flags().StringP("url", "u", "", "page url")
 
-	err := insertCmd.MarkFlagRequired("page")
+	err := insertCmd.MarkFlagRequired("name")
 	if err != nil {
 		log.Println("page name is required")
 		os.Exit(1)
