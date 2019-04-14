@@ -33,8 +33,8 @@ var openCmd = &cobra.Command{
 				 search tag or page indicated flag, open matched url`,
 	Run: func(cmd *cobra.Command, args []string) {
 
-		tagFlag, _ := cmd.PersistentFlags().GetString("tag")
-		nameFlag, _ := cmd.PersistentFlags().GetString("name")
+		tagFlag, _ := cmd.Flags().GetString("tag")
+		nameFlag, _ := cmd.Flags().GetString("name")
 
 		if tagFlag == "" && nameFlag == "" {
 			fmt.Println("tag or page flag is required")

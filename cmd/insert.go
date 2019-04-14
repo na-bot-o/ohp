@@ -36,9 +36,9 @@ var insertCmd = &cobra.Command{
 
 		env := util.LoadEnv()
 
-		tagFlag, _ := cmd.PersistentFlags().GetString("tag")
-		nameFlag, _ := cmd.PersistentFlags().GetString("name")
-		urlFlag, _ := cmd.PersistentFlags().GetString("url")
+		tagFlag, _ := cmd.Flags().GetString("tag")
+		nameFlag, _ := cmd.Flags().GetString("name")
+		urlFlag, _ := cmd.Flags().GetString("url")
 
 		dataFile := data.New(env.FileName)
 

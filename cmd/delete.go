@@ -32,8 +32,8 @@ var deleteCmd = &cobra.Command{
 	Long:  `delete page url records matched name indicated tag or page flag`,
 	Run: func(cmd *cobra.Command, args []string) {
 
-		tagFlag, _ := cmd.PersistentFlags().GetString("tag")
-		nameFlag, _ := cmd.PersistentFlags().GetString("name")
+		tagFlag, _ := cmd.Flags().GetString("tag")
+		nameFlag, _ := cmd.Flags().GetString("name")
 
 		if !IsTagOrPageFlagUsed(tagFlag, nameFlag) {
 			fmt.Println("either page or tag flag must use")
