@@ -41,8 +41,8 @@ var openCmd = &cobra.Command{
 			os.Exit(1)
 		}
 
-		util.LoadEnv()
-		dataFile := data.New(os.Getenv("PAGEFILE"))
+		env := util.LoadEnv()
+		dataFile := data.New(env.FileName)
 
 		lines, err := dataFile.GetPages()
 

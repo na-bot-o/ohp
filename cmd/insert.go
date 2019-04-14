@@ -34,13 +34,13 @@ var insertCmd = &cobra.Command{
 				you need page name and url name`,
 	Run: func(cmd *cobra.Command, args []string) {
 
-		util.LoadEnv()
+		env := util.LoadEnv()
 
 		tagFlag, _ := cmd.PersistentFlags().GetString("tag")
 		nameFlag, _ := cmd.PersistentFlags().GetString("name")
 		urlFlag, _ := cmd.PersistentFlags().GetString("url")
 
-		dataFile := data.New(os.Getenv("PAGEFILE"))
+		dataFile := data.New(env.FileName)
 
 		fp, err := os.OpenFile(dataFile.Path, os.O_APPEND|os.O_RDWR, 0755)
 		if err != nil {

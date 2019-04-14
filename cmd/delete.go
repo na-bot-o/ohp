@@ -42,11 +42,11 @@ var deleteCmd = &cobra.Command{
 
 		const BUFSIZE = 1024
 
-		util.LoadEnv()
+		env := util.LoadEnv()
 
 		//copy file to archive for revovering
-		dataFile := data.New("PAGEFILE")
-		archiveFile := data.New("ARCHIVEFILE")
+		dataFile := data.New(env.FileName)
+		archiveFile := data.New(env.ArchiveName)
 
 		dataFile.CopyTo(archiveFile)
 

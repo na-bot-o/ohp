@@ -1,14 +1,11 @@
 package util
 
-import (
-	"fmt"
+type Env struct {
+	FileName    string
+	ArchiveName string
+}
 
-	"github.com/joho/godotenv"
-)
-
-func LoadEnv() {
-	err := godotenv.Load()
-	if err != nil {
-		fmt.Println("Error loading .env fileohp")
-	}
+func LoadEnv() Env {
+	//hard coding file and archive name
+	return Env{".ohp", ".ohp_old"}
 }

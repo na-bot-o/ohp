@@ -33,9 +33,10 @@ var listCmd = &cobra.Command{
 					you can find what page inserted`,
 	Run: func(cmd *cobra.Command, args []string) {
 
-		util.LoadEnv()
+		//get file and archive name
+		env := util.LoadEnv()
 
-		dataFile := data.New(os.Getenv("PAGEFILE"))
+		dataFile := data.New(env.FileName)
 
 		var lines []page.Page
 
