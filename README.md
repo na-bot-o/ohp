@@ -9,6 +9,13 @@ ohp is command to open recorded page(url) on browser
 recorded page is managed in ${HOME}/.ohp file(default)
 ohp command reads and writes to this file.
 
+## Install
+
+1. Download this repository
+2. execute `make` command
+   
+※ you need to install go
+
 ## Usage
 
 ### list
