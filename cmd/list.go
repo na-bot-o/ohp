@@ -47,7 +47,7 @@ var listCmd = &cobra.Command{
 		}
 
 		fmt.Println("-------------------------------------------------")
-		fmt.Println("|   " + "page" + "   |   " + "tag" + "   |   " + "url" + "   |   ")
+		fmt.Println("|   " + "name" + "   |   " + "tag" + "   |   " + "url" + "   |   ")
 		fmt.Println("-------------------------------------------------")
 
 		for _, line := range lines {
