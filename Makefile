@@ -9,8 +9,11 @@ BINARY_NAME=ohp
 DATA_FILE=~/.ohp
 
 
-all: reset test build
+all: init reset test build
 
+init:
+	$(GOGET) github.com/golang/dep/cmd/dep
+	dep ensure
 build:
 	$(GOBUILD) -o $(BINARY_NAME)
 test:
