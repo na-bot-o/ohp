@@ -14,8 +14,8 @@ func New(name string, tag string, url string) Page {
 
 func (p *Page) WrittenIn(file *os.File) error {
 
-	insert_format := p.Name + "," + p.Tag + "," + p.Url + "\n"
-	_, err := file.Write(([]byte)(insert_format))
+	insertFormat := p.Name + "," + p.Tag + "," + p.Url + "\n"
+	_, err := file.Write(([]byte)(insertFormat))
 
 	return err
 }
