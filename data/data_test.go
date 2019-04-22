@@ -19,7 +19,9 @@ func TestGetDataFilePath(t *testing.T) {
 	}
 
 }
+
 func TestGetPages(t *testing.T) {
+	// check that match expected inputs
 	expectedInputs := []struct {
 		Name string
 		Tag  string
