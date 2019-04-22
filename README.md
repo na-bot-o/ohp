@@ -22,19 +22,35 @@ ohp command reads and writes to this file.
 
 open recorded page list
 
+```sh
+ohp list
+```
+
 ### insert
 
 record new page
+
+```
+ohp insert -n Google -t search -u https://google.com
+```
+
+※ can't allocate multiple tags or urls in a row
 
 ### open
 
 open recorded url with matching tag or name flag on browser
 
+```sh
+ohp open -n Google
+ohp open -t search
+```
+
 
 ### delete
 
-delete page list with matching tag or name flag
+delete page with matching tag or name flag
 
-### update
-
-update page list info (name, tag, or url)
+```sh
+ohp delete -n Google
+ohp delete -t search
+```
