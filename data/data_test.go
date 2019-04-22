@@ -5,12 +5,16 @@ import (
 	"testing"
 )
 
+var HOMEDIR = os.Getenv("HOME")
+var TESTFILENAME = "./ohp_test"
+var TESTFILEPATH = "../.ohp_test"
+var ARCHIVEFILE = ".ohp_old_test"
+var ARCHIVEFILEPATH = "../.ohp_old_test"
+
 func TestGetDataFilePath(t *testing.T) {
 	datafile := New(".ohp")
 
-	home := os.Getenv("HOME")
-
-	if datafile.Path != home+"/.ohp" {
+	if datafile.Path != HOMEDIR+"/.ohp" {
 		t.Fatalf("filepath is wrong")
 	}
 
@@ -27,7 +31,7 @@ func TestGetPages(t *testing.T) {
 		{"Yahoo", "SearchEngine", "https://yahoo.co.jp"},
 	}
 
-	dataStub := Data{".ohp_test", "../.ohp_test"}
+	dataStub := Data{TESTFILENAME, TESTFILEPATH}
 
 	pages, err := dataStub.GetPages()
 
