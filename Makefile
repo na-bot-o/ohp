@@ -5,17 +5,20 @@ GOBUILD=$(GOCMD) build
 GOCLEAN=$(GOCMD) clean
 GOTEST=$(GOCMD) test
 GOGET=$(GOCMD) get
+GOINSTALL=$(GOCMD) install
 BINARY_NAME=ohp
 DATA_FILE=~/.ohp
 
 
-all: init reset test build
+all: init reset test install
 
 init:
 	$(GOGET) github.com/golang/dep/cmd/dep
 	dep ensure
 build:
 	$(GOBUILD) -o $(BINARY_NAME)
+install:
+	$(GOINSTALL)
 test:
 	$(GOTEST) -v ./...
 setup:
