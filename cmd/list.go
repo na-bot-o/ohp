@@ -15,12 +15,12 @@
 package cmd
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/na-bot-o/ohp/data"
 	"github.com/na-bot-o/ohp/page"
 	"github.com/na-bot-o/ohp/util"
+	"github.com/olekukonko/tablewriter"
 
 	"github.com/spf13/cobra"
 )
@@ -46,16 +46,19 @@ var listCmd = &cobra.Command{
 			os.Exit(1)
 		}
 
-		fmt.Println("-------------------------------------------------")
-		fmt.Println("|   " + "name" + "   |   " + "tag" + "   |   " + "url" + "   |   ")
-		fmt.Println("-------------------------------------------------")
+		table := tablewriter.NewWriter(os.Stdout)
+
+		table.SetHeader([]string{"Name", "Tag", "URL"})
 
 		for _, line := range lines {
 
-			fmt.Println("| " + line.Name + " | " + line.Tag + " | " + line.Url + " | ")
-			fmt.Println("----------------------------------------------")
+			tableRow := []string{line.Name, line.Tag, line.Url}
+
+			table.Append(tableRow)
 
 		}
+
+		table.Render()
 
 	},
 }
