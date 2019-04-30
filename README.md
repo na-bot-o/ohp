@@ -14,7 +14,7 @@ ohp command reads and writes to this file.
 1. Download this repository
 2. execute `make` command
    
-※ you need to install go
+※ you need to set up go env in advance
 
 ## Usage
 
@@ -24,6 +24,13 @@ open recorded page list
 
 ```sh
 ohp list
+
+//result image
+// ---------------------------------------
+// |  name  |  tag   |       url         |
+// | google | search | https://google.com|
+// ---------------------------------------
+
 ```
 
 ### insert
@@ -31,6 +38,10 @@ ohp list
 record new page
 
 ```
+//flag 
+//  -n page name
+//  -t tag name
+//  -u url
 ohp insert -n Google -t search -u https://google.com
 ```
 
@@ -41,6 +52,9 @@ ohp insert -n Google -t search -u https://google.com
 open recorded url with matching tag or name flag on browser
 
 ```sh
+//flag
+//  -n page name
+//  -t tag name
 ohp open -n Google
 ohp open -t search
 ```
@@ -51,6 +65,9 @@ ohp open -t search
 delete page with matching tag or name flag
 
 ```sh
+//flag
+//  -n page name
+//  -t tag name
 ohp delete -n Google
 ohp delete -t search
 ```
