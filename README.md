@@ -23,13 +23,13 @@ ohp command reads and writes to this file.
 open recorded page list
 
 ```sh
-ohp list
+$ ohp list
 
-//result image
-// ---------------------------------------
-// |  name  |  tag   |       url         |
-// | google | search | https://google.com|
-// ---------------------------------------
+ --------------------------------------------
+ |  name  |    tag     |       url          |
+ | google | search     | https://google.com |
+ | amazon | e-commarce | https://amazon.com |
+ --------------------------------------------
 
 ```
 
@@ -38,11 +38,15 @@ ohp list
 record new page
 
 ```
-//flag 
-//  -n page name
-//  -t tag name
-//  -u url
-ohp insert -n Google -t search -u https://google.com
+$ ohp insert -n yahoo -t search -u https://yahoo.com
+$ ohp list
+
+ --------------------------------------------
+ |  name  |    tag     |       url          |
+ | yahoo  | search     | https://yahoo.com  |
+ | google | search     | https://google.com |
+ | amazon | e-commarce | https://amazon.com |
+ --------------------------------------------
 ```
 
 ※ can't allocate multiple tags or urls in a row
@@ -52,11 +56,20 @@ ohp insert -n Google -t search -u https://google.com
 open recorded url with matching tag or name flag on browser
 
 ```sh
-//flag
-//  -n page name
-//  -t tag name
-ohp open -n Google
-ohp open -t search
+
+$ ohp list
+
+ --------------------------------------------
+ |  name  |    tag     |       url          |
+ | yahoo  | search     | https://yahoo.com  |
+ | google | search     | https://google.com |
+ | amazon | e-commarce | https://amazon.com |
+ --------------------------------------------
+
+$ ohp open -n Google
+-> open browser and open "https://google.com"
+$ ohp open -t search
+-> open browser and open "https://google.com" and "https://yahoo.com"
 ```
 
 
@@ -65,9 +78,25 @@ ohp open -t search
 delete page with matching tag or name flag
 
 ```sh
-//flag
-//  -n page name
-//  -t tag name
-ohp delete -n Google
-ohp delete -t search
+$ ohp list
+ --------------------------------------------
+ |  name  |    tag     |       url          |
+ | yahoo  | search     | https://yahoo.com  |
+ | google | search     | https://google.com |
+ | amazon | e-commarce | https://amazon.com |
+ --------------------------------------------
+
+$ ohp delete -t search
+$ ohp list
+
+ --------------------------------------------
+ |  name  |    tag     |       url          |
+ | amazon | e-commarce | https://amazon.com |
+ --------------------------------------------
+
+$ ohp delete -n amazon
+
+$ ohp list
+-> none
+
 ```
